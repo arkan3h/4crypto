@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1006810608492",
+    "project_id": "crypto-a6e43",
+    "storage_bucket": "crypto-a6e43.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1006810608492:android:f43114e46401d372e3b949",
+        "android_client_info": {
+          "package_name": "com.arkan.a4crypto"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAI4wNtNEgJnVEhirWbyhxdtD2Ae2S5lns"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
