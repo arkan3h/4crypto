@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">4crypto</string>
+    <string name="text_login_here">LOGIN YOUR ACCOUNT</string>
+    <string name="title_email_input_profile">Email</string>
+    <string name="email_hint">Input Your Email</string>
+    <string name="title_password_input_profile">Password</string>
+    <string name="password_hint">Input Your Password</string>
+    <string name="text_nav_to_register">Not Register Yet? Register Here</string>
+    <string name="text_btn_login">LOGIN</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_tab_home">Home</string>
     <string name="title_tab_profile">Profile</string>
