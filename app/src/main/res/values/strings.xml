@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">4crypto</string>
+
+    <string name="text_register">Register</string>
+    <string name="hint_name">Nama Anda</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_confirm_password">konfirmasi Password</string>
+    <string name="text_already_have_an_account_click_here">Sudah punya akun? Masuk di sini</string>
 </resources>
