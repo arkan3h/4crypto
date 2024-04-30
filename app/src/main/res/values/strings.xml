@@ -11,13 +11,19 @@
     <string name="title_tab_home">Home</string>
     <string name="title_tab_profile">Profile</string>
 
-
     <string name="text_register">Register</string>
-    <string name="hint_name">Nama Anda</string>
+    <string name="hint_name">Name</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
-    <string name="hint_confirm_password">konfirmasi Password</string>
-    <string name="text_already_have_an_account_click_here">Sudah punya akun? Masuk di sini</string>
+    <string name="hint_confirm_password">Confirm Password</string>
+    <string name="text_already_have_an_account_click_here">Have an account? Log in here</string>
+    <string name="text_error_email_empty">Email cannot be empty</string>
+    <string name="text_error_email_invalid">Invalid Email</string>
+    <string name="text_error_password_empty">Password cannot be empty</string>
+    <string name="text_error_password_less_than_8_char">Password at least 8 character</string>
+    <string name="text_password_does_not_match">Password does not match</string>
+    <string name="text_error_name_cannot_empty">Name cannot be empty</string>
+    <string name="text_highlight_login_here">Login di sini</string>
     <string name="text_title_home">Trending Coint</string>
     <string name="text_title_item_home">judul coint</string>
     <string name="text_item_home_coint_deks">Deskripsi item home coint</string>
