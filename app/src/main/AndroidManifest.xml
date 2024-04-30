@@ -19,6 +19,9 @@
             android:name=".presentation.login.LoginActivity"
             android:exported="false" />
         <activity
+            android:name=".presentation.register.RegisterActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.detail.DetailActivity"
             android:exported="false" />
         <activity

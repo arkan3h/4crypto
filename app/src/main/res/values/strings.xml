@@ -23,5 +23,11 @@
     <string name="text_item_home_coint_deks">Deskripsi item home coint</string>
     <string name="text_item_home_price">$3,397.73</string>
     <string name="text_go_to_web">Open in CoinGecko</string>
+    <string name="text_error_email_empty">Email masih kosong</string>
+    <string name="text_error_email_invalid">Email tidak valid</string>
+    <string name="text_error_pw_empty">Password tidak boleh kosong</string>
+    <string name="text_error_name_empty">Nama tidak boleh kosong</string>
+    <string name="text_error_pw_lower">Password harus lebih dari 8 charakter</string>
+    <string name="text_pw_nomatch">Password tidak sesuai</string>
 
 </resources>
