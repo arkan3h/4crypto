@@ -9,7 +9,7 @@ import com.arkan.a4crypto.R
 import com.arkan.a4crypto.databinding.ActivityDetailBinding
 
 class DetailActivity : AppCompatActivity() {
-    private val binding : ActivityDetailBinding by lazy {
+    private val binding: ActivityDetailBinding by lazy {
         ActivityDetailBinding.inflate(layoutInflater)
     }
 
