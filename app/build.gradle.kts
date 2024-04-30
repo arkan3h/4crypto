@@ -38,10 +38,8 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-
     buildFeatures {
         viewBinding = true
-
         buildConfig = true
     }
     flavorDimensions += "env"
@@ -114,13 +112,18 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
     implementation(libs.okhttp)
-    implementation(libs.koin.android)
     implementation("com.squareup.okhttp3:logging-interceptor:4.5.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+
+    // splash screen
     implementation("androidx.core:core-splashscreen:1.0.1")
+
+    //    lottie
     implementation("com.airbnb.android:lottie:3.4.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("com.google.android.material:material:1.8.0")
 }

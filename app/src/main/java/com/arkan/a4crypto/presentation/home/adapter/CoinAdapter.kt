@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.arkan.a4crypto.data.model.Coin
-import com.arkan.a4crypto.databinding.ItemHomeListCointBinding
+import com.arkan.a4crypto.databinding.ItemHomeListCoinBinding
 import com.arkan.aresto.utils.toDollarFormat
 
 class CoinAdapter : RecyclerView.Adapter<CoinAdapter.CoinViewHolder>() {
@@ -40,13 +40,15 @@ class CoinAdapter : RecyclerView.Adapter<CoinAdapter.CoinViewHolder>() {
         viewType: Int,
     ): CoinViewHolder {
         return CoinViewHolder(
-            ItemHomeListCointBinding.inflate(
+            ItemHomeListCoinBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false,
             ),
         )
     }
+
+    override fun getItemCount(): Int = asyncDataDiffer.currentList.size
 
     override fun onBindViewHolder(
         holder: CoinViewHolder,
@@ -55,17 +57,13 @@ class CoinAdapter : RecyclerView.Adapter<CoinAdapter.CoinViewHolder>() {
         holder.bind(asyncDataDiffer.currentList[position])
     }
 
-    override fun getItemCount(): Int = asyncDataDiffer.currentList.size
-
-    class CoinViewHolder(private val binding: ItemHomeListCointBinding) :
+    class CoinViewHolder(private val binding: ItemHomeListCoinBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Coin) {
-            item.let {
-                binding.ivImgItemHome.load(it.image)
-                binding.tvItemHomeTitle.text = it.name
-                binding.tvItemHomeDesk.text = it.desc
-                binding.tvItemHomePrice.text = it.price.toDollarFormat()
-            }
+            binding.ivImgItemHome.load(item.image)
+            binding.tvItemHomeTitle.text = item.name
+            binding.tvItemHomeDesk.text = item.desc
+            binding.tvItemHomePrice.text = item.price.toDollarFormat()
         }
     }
 }
