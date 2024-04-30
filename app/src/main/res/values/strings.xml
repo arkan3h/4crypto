@@ -33,5 +33,14 @@
     <string name="text_error_name_empty">Nama tidak boleh kosong</string>
     <string name="text_error_pw_lower">Password harus lebih dari 8 charakter</string>
     <string name="text_pw_nomatch">Password tidak sesuai</string>
+    <string name="text_edit_profile">Edit Profile</string>
+    <string name="text_save">Save</string>
+    <string name="text_button_logout">Logout</string>
+    <string name="text_dialog_logout">Hanya memastikan, Apakah Anda ingin Logout?</string>
+    <string name="text_doalog_logout_back">kembali</string>
+    <string name="text_link_edit_profile_success">data profile berhasil diedit</string>
+    <string name="text_link_edit_profile_failed">data profile gagal diedit</string>
+    <string name="text_dialog_change_pw">Link untuk mengubah password telah dikirim di email yang terdaftar</string>
+    <string name="text_back">Kembali</string>
 
 </resources>
