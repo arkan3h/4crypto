@@ -7,12 +7,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.arkan.a4crypto.data.model.Coin
-import com.arkan.a4crypto.databinding.ItemHomeListCoinBinding
+import com.arkan.a4crypto.databinding.ItemHomeListCointBinding
 import com.arkan.aresto.utils.toDollarFormat
 
-class CoinAdapter(
-    private val listener: OnItemCLickedListener<Coin>,
-) : RecyclerView.Adapter<CoinAdapter.CoinViewHolder>() {
+class CoinAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val asyncDataDiffer =
         AsyncListDiffer(
             this,
@@ -42,41 +40,34 @@ class CoinAdapter(
         viewType: Int,
     ): CoinViewHolder {
         return CoinViewHolder(
-            ItemHomeListCoinBinding.inflate(
+            ItemHomeListCointBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false,
             ),
-            listener,
         )
+    }
+
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int,
+    ) {
+        (holder as ViewHolderBinder<Coin>).bind(asyncDataDiffer.currentList[position])
     }
 
     override fun getItemCount(): Int = asyncDataDiffer.currentList.size
 
-    override fun onBindViewHolder(
-        holder: CoinViewHolder,
-        position: Int,
-    ) {
-        holder.bind(asyncDataDiffer.currentList[position])
-    }
-
-    class CoinViewHolder(
-        private val binding: ItemHomeListCoinBinding,
-        private val listener: OnItemCLickedListener<Coin>,
-    ) :
+    class CoinViewHolder(private val binding: ItemHomeListCointBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Coin) {
             binding.ivImgItemHome.load(item.image)
             binding.tvItemHomeTitle.text = item.name
             binding.tvItemHomeDesk.text = item.desc
             binding.tvItemHomePrice.text = item.price.toDollarFormat()
-            itemView.setOnClickListener {
-                listener.onItemClicked(item)
-            }
         }
     }
 }
 
-interface OnItemCLickedListener<T> {
-    fun onItemClicked(item: T)
+interface ViewHolderBinder<T> {
+    fun bind(item: T)
 }
