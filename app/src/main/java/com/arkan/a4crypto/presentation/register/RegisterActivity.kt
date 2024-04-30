@@ -43,7 +43,7 @@ class RegisterActivity : AppCompatActivity() {
         binding.btnRegister.setOnClickListener {
             doRegister()
         }
-        binding.btnRegister.setOnClickListener {
+        binding.tvNavToLogin.setOnClickListener {
             navigateToLogin()
         }
     }
