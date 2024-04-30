@@ -17,7 +17,6 @@ import com.arkan.a4crypto.data.source.firebase.FirebaseServiceImpl
 import com.arkan.a4crypto.databinding.ActivityRegisterBinding
 import com.arkan.a4crypto.presentation.login.LoginActivity
 import com.arkan.a4crypto.presentation.main.MainActivity
-import com.arkan.a4crypto.utils.highLightWord
 import com.arkan.aresto.utils.GenericViewModelFactory
 import com.arkan.aresto.utils.proceedWhen
 import com.google.android.material.textfield.TextInputLayout
@@ -37,7 +36,6 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        setupForm()
         setClickListeners()
     }
 
@@ -45,24 +43,16 @@ class RegisterActivity : AppCompatActivity() {
         binding.btnRegister.setOnClickListener {
             doRegister()
         }
-        binding.tvNavToLogin.highLightWord(getString(R.string.text_highlight_login_here)) {
+        binding.btnRegister.setOnClickListener {
             navigateToLogin()
         }
     }
 
-    private fun navigateToLogin() {
-        startActivity(
-            Intent(this, LoginActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
-            },
-        )
-    }
-
     private fun doRegister() {
         if (isFormValid()) {
-            val email = binding.layoutForm.etEmail.text.toString().trim()
-            val password = binding.layoutForm.etPassword.text.toString().trim()
-            val fullName = binding.layoutForm.etName.text.toString().trim()
+            val email = binding.etEmail.text.toString().trim()
+            val password = binding.etPassword.text.toString().trim()
+            val fullName = binding.etName.text.toString().trim()
             proceedRegister(email, password, fullName)
         }
     }
@@ -96,6 +86,14 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    private fun navigateToLogin() {
+        startActivity(
+            Intent(this, LoginActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            },
+        )
+    }
+
     private fun navigateToMain() {
         startActivity(
             Intent(this, MainActivity::class.java).apply {
@@ -104,49 +102,40 @@ class RegisterActivity : AppCompatActivity() {
         )
     }
 
-    private fun setupForm() {
-        with(binding.layoutForm) {
-            tilEmail.isVisible = true
-            tilPassword.isVisible = true
-            tilName.isVisible = true
-            tilConfirmPassword.isVisible = true
-        }
-    }
-
     private fun isFormValid(): Boolean {
-        val password = binding.layoutForm.etPassword.text.toString().trim()
-        val confirmPassword = binding.layoutForm.etConfirmPassword.text.toString().trim()
-        val fullName = binding.layoutForm.etName.text.toString().trim()
-        val email = binding.layoutForm.etEmail.text.toString().trim()
+        val password = binding.etPassword.text.toString().trim()
+        val confirmPassword = binding.etConfirmPassword.text.toString().trim()
+        val fullName = binding.etName.text.toString().trim()
+        val email = binding.etEmail.text.toString().trim()
 
         return checkNameValidation(fullName) && checkEmailValidation(email) &&
-            checkPasswordValidation(password, binding.layoutForm.tilPassword) &&
-            checkPasswordValidation(confirmPassword, binding.layoutForm.tilConfirmPassword) &&
+            checkPasswordValidation(password, binding.tilPassword) &&
+            checkPasswordValidation(confirmPassword, binding.tilConfirmPassword) &&
             checkPwdAndConfirmPwd(password, confirmPassword)
     }
 
     private fun checkNameValidation(fullName: String): Boolean {
         return if (fullName.isEmpty()) {
-            binding.layoutForm.tilName.isErrorEnabled = true
-            binding.layoutForm.tilName.error = getString(R.string.text_error_name_cannot_empty)
+            binding.tilName.isErrorEnabled = true
+            binding.tilName.error = getString(R.string.text_error_name_empty)
             false
         } else {
-            binding.layoutForm.tilName.isErrorEnabled = false
+            binding.tilName.isErrorEnabled = false
             true
         }
     }
 
     private fun checkEmailValidation(email: String): Boolean {
         return if (email.isEmpty()) {
-            binding.layoutForm.tilEmail.isErrorEnabled = true
-            binding.layoutForm.tilEmail.error = getString(R.string.text_error_email_empty)
+            binding.tilEmail.isErrorEnabled = true
+            binding.tilEmail.error = getString(R.string.text_error_email_empty)
             false
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            binding.layoutForm.tilEmail.isErrorEnabled = true
-            binding.layoutForm.tilEmail.error = getString(R.string.text_error_email_invalid)
+            binding.tilEmail.isErrorEnabled = true
+            binding.tilEmail.error = getString(R.string.text_error_email_invalid)
             false
         } else {
-            binding.layoutForm.tilEmail.isErrorEnabled = false
+            binding.tilEmail.isErrorEnabled = false
             true
         }
     }
@@ -158,12 +147,12 @@ class RegisterActivity : AppCompatActivity() {
         return if (confirmPassword.isEmpty()) {
             textInputLayout.isErrorEnabled = true
             textInputLayout.error =
-                getString(R.string.text_error_password_empty)
+                getString(R.string.text_error_pw_empty)
             false
         } else if (confirmPassword.length < 8) {
             textInputLayout.isErrorEnabled = true
             textInputLayout.error =
-                getString(R.string.text_error_password_less_than_8_char)
+                getString(R.string.text_error_pw_lower)
             false
         } else {
             textInputLayout.isErrorEnabled = false
@@ -176,16 +165,16 @@ class RegisterActivity : AppCompatActivity() {
         confirmPassword: String,
     ): Boolean {
         return if (password != confirmPassword) {
-            binding.layoutForm.tilPassword.isErrorEnabled = true
-            binding.layoutForm.tilPassword.error =
-                getString(R.string.text_password_does_not_match)
-            binding.layoutForm.tilConfirmPassword.isErrorEnabled = true
-            binding.layoutForm.tilConfirmPassword.error =
-                getString(R.string.text_password_does_not_match)
+            binding.tilPassword.isErrorEnabled = true
+            binding.tilPassword.error =
+                getString(R.string.text_pw_nomatch)
+            binding.tilConfirmPassword.isErrorEnabled = true
+            binding.tilConfirmPassword.error =
+                getString(R.string.text_pw_nomatch)
             false
         } else {
-            binding.layoutForm.tilPassword.isErrorEnabled = false
-            binding.layoutForm.tilConfirmPassword.isErrorEnabled = false
+            binding.tilPassword.isErrorEnabled = false
+            binding.tilConfirmPassword.isErrorEnabled = false
             true
         }
     }
