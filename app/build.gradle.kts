@@ -116,5 +116,13 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation(libs.koin.android)
+
+    // splash screen
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
+    //    lottie
+    implementation("com.airbnb.android:lottie:3.4.0")
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 }
