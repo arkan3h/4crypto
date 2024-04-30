@@ -10,7 +10,7 @@ import com.arkan.a4crypto.data.model.Coin
 import com.arkan.a4crypto.databinding.ItemHomeListCointBinding
 import com.arkan.aresto.utils.toDollarFormat
 
-class CoinAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CoinAdapter : RecyclerView.Adapter<CoinAdapter.CoinViewHolder>() {
     private val asyncDataDiffer =
         AsyncListDiffer(
             this,
@@ -49,10 +49,10 @@ class CoinAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun onBindViewHolder(
-        holder: RecyclerView.ViewHolder,
+        holder: CoinViewHolder,
         position: Int,
     ) {
-        (holder as ViewHolderBinder<Coin>).bind(asyncDataDiffer.currentList[position])
+        holder.bind(asyncDataDiffer.currentList[position])
     }
 
     override fun getItemCount(): Int = asyncDataDiffer.currentList.size
@@ -60,14 +60,12 @@ class CoinAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     class CoinViewHolder(private val binding: ItemHomeListCointBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Coin) {
-            binding.ivImgItemHome.load(item.image)
-            binding.tvItemHomeTitle.text = item.name
-            binding.tvItemHomeDesk.text = item.desc
-            binding.tvItemHomePrice.text = item.price.toDollarFormat()
+            item.let {
+                binding.ivImgItemHome.load(it.image)
+                binding.tvItemHomeTitle.text = it.name
+                binding.tvItemHomeDesk.text = it.desc
+                binding.tvItemHomePrice.text = it.price.toDollarFormat()
+            }
         }
     }
-}
-
-interface ViewHolderBinder<T> {
-    fun bind(item: T)
 }
