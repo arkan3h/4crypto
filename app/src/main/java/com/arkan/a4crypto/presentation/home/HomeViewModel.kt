@@ -1,10 +1,12 @@
 package com.arkan.a4crypto.presentation.home
 
 import androidx.lifecycle.ViewModel
-import com.arkan.a4crypto.data.repository.UserRepository
+import androidx.lifecycle.asLiveData
+import com.arkan.a4crypto.data.repository.CoinRepository
+import kotlinx.coroutines.Dispatchers
 
 class HomeViewModel(
-    private val userRepository: UserRepository,
+    private val coinRepository: CoinRepository,
 ) : ViewModel() {
-    fun isUserLoggedIn() = userRepository.isLoggedIn()
+    fun getCoinList() = coinRepository.getCoinList().asLiveData(Dispatchers.IO)
 }

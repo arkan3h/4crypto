@@ -23,6 +23,7 @@ interface FourCryptoApiServices {
                     .addInterceptor { chain ->
                         val request =
                             chain.request().newBuilder()
+                                .addHeader("accept", "application/json")
                                 .addHeader("x-cg-demo-api-key", BuildConfig.API_KEY)
                         chain.proceed(request.build())
                     }
