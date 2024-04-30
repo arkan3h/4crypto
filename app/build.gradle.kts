@@ -48,14 +48,24 @@ android {
             buildConfigField(
                 type = "String",
                 name = "BASE_URL",
-                value = "\"https://www.coingecko.com/\"",
+                value = "\"https://api.coingecko.com/api/v3/\"",
+            )
+            buildConfigField(
+                type = "String",
+                name = "API_KEY",
+                value = "\"CG-7FL2Y7eThs7FtVBtTeq4xuDo\"",
             )
         }
         create("integration") {
             buildConfigField(
                 type = "String",
                 name = "BASE_URL",
-                value = "\"https://www.coingecko.com/\"",
+                value = "\"https://api.coingecko.com/api/v3/\"",
+            )
+            buildConfigField(
+                type = "String",
+                name = "API_KEY",
+                value = "\"CG-7FL2Y7eThs7FtVBtTeq4xuDo\"",
             )
         }
     }
@@ -102,6 +112,7 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
     implementation(libs.okhttp)
+    implementation("com.squareup.okhttp3:logging-interceptor:4.5.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
