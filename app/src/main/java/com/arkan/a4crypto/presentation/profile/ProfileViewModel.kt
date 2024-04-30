@@ -7,7 +7,6 @@ import com.arkan.a4crypto.data.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 
 class ProfileViewModel(private val repo: UserRepository) : ViewModel() {
-
     val isEditMode = MutableLiveData(false)
 
     fun changeEditMode() {
@@ -20,8 +19,8 @@ class ProfileViewModel(private val repo: UserRepository) : ViewModel() {
     fun changePassword() {
         repo.requestChangePasswordByEmail()
     }
-    fun getCurrentUser() = repo.getCurrentUser()
 
+    fun getCurrentUser() = repo.getCurrentUser()
 
     fun isUserLoggedIn() = repo.isLoggedIn()
 
