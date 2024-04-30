@@ -7,6 +7,7 @@ fun CoinResponse.toCoin() =
     Coin(
         id = this.id.orEmpty(),
         name = this.name.orEmpty(),
+        desc = this.desc.orEmpty(),
         image = this.image.orEmpty(),
         price = this.price ?: 0.0,
     )

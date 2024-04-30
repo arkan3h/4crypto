@@ -1,40 +1,45 @@
 package com.arkan.a4crypto.presentation.home
 
-import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.arkan.a4crypto.data.datasource.auth.AuthDataSource
-import com.arkan.a4crypto.data.datasource.auth.FirebaseAuthDataSource
-import com.arkan.a4crypto.data.repository.UserRepository
-import com.arkan.a4crypto.data.repository.UserRepositoryImpl
-import com.arkan.a4crypto.data.source.firebase.FirebaseService
-import com.arkan.a4crypto.data.source.firebase.FirebaseServiceImpl
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.arkan.a4crypto.R
+import com.arkan.a4crypto.data.datasource.CoinDataSource
+import com.arkan.a4crypto.data.datasource.CoinDataSourceImpl
+import com.arkan.a4crypto.data.repository.CoinRepository
+import com.arkan.a4crypto.data.repository.CoinRepositoryImpl
+import com.arkan.a4crypto.data.source.network.services.FourCryptoApiServices
 import com.arkan.a4crypto.databinding.FragmentHomeBinding
-import com.arkan.a4crypto.presentation.login.LoginActivity
+import com.arkan.a4crypto.presentation.home.adapter.CoinAdapter
 import com.arkan.aresto.utils.GenericViewModelFactory
+import com.arkan.aresto.utils.proceedWhen
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
+    private var coinAdapter = CoinAdapter()
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     private val viewModel: HomeViewModel by viewModels {
-
-        val user: FirebaseService = FirebaseServiceImpl()
-        val userDataSource: AuthDataSource = FirebaseAuthDataSource(user)
-        val userRepo: UserRepository = UserRepositoryImpl(userDataSource)
-        GenericViewModelFactory.create(HomeViewModel(userRepo))
+        val service = FourCryptoApiServices.invoke()
+        val ds: CoinDataSource = CoinDataSourceImpl(service)
+        val rp: CoinRepository = CoinRepositoryImpl(ds)
+        GenericViewModelFactory.create(
+            HomeViewModel(rp),
+        )
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+    ): View {
+        binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -43,17 +48,56 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?,
     ) {
         super.onViewCreated(view, savedInstanceState)
-        checkIfUserLogin()
+        getCoinData()
+        bindCoinList()
+        refreshLayout()
     }
 
-    private fun checkIfUserLogin() {
-        if (viewModel.isUserLoggedIn()) {
-        } else {
-            navigateToLogin()
+    private fun refreshLayout() {
+        swipeRefreshLayout = binding.swipeHome
+        swipeRefreshLayout.setOnRefreshListener {
+            getCoinData()
+            bindCoinList()
+            Handler().postDelayed(
+                { swipeRefreshLayout.isRefreshing = false },
+                1000,
+            )
         }
     }
 
-    private fun navigateToLogin() {
-        startActivity(Intent(requireContext(), LoginActivity::class.java))
+    private fun getCoinData() {
+        viewModel.getCoinList().observe(viewLifecycleOwner) { it ->
+            it.proceedWhen(
+                doOnLoading = {
+                    binding.layoutState.pbLoading.isVisible = true
+                    binding.layoutState.tvError.isVisible = false
+                    binding.rvListCoin.isVisible = false
+                },
+                doOnError = {
+                    binding.layoutState.pbLoading.isVisible = false
+                    binding.layoutState.tvError.isVisible = true
+                    binding.layoutState.tvError.text = it.exception?.message.orEmpty()
+                    binding.rvListCoin.isVisible = false
+                },
+                doOnSuccess = {
+                    binding.layoutState.pbLoading.isVisible = false
+                    binding.layoutState.tvError.isVisible = false
+                    binding.rvListCoin.isVisible = true
+                    it.payload?.let { data ->
+                        coinAdapter.submitData(data)
+                    }
+                },
+                doOnEmpty = {
+                    binding.layoutState.pbLoading.isVisible = false
+                    binding.layoutState.tvError.isVisible = true
+                    binding.layoutState.tvError.text = getString(R.string.text_coin_is_empty)
+                    binding.rvListCoin.isVisible = false
+                },
+            )
+        }
+    }
+
+    private fun bindCoinList() {
+        binding.rvListCoin.adapter = this@HomeFragment.coinAdapter
     }
 }

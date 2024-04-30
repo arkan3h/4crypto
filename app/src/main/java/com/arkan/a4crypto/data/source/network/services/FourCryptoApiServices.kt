@@ -7,11 +7,14 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
 interface FourCryptoApiServices {
-    @GET("list")
-    suspend fun getCoinList(): List<CoinResponse>
+    @GET("markets")
+    suspend fun getCoinList(
+        @Query("vs_currency") vs_currency: String = "usd",
+    ): List<CoinResponse>
 
     companion object {
         @JvmStatic
@@ -23,6 +26,7 @@ interface FourCryptoApiServices {
                     .addInterceptor { chain ->
                         val request =
                             chain.request().newBuilder()
+                                .addHeader("accept", "application/json")
                                 .addHeader("x-cg-demo-api-key", BuildConfig.API_KEY)
                         chain.proceed(request.build())
                     }
