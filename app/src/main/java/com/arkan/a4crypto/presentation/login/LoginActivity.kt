@@ -4,33 +4,22 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.arkan.a4crypto.R
-import com.arkan.a4crypto.data.datasource.auth.AuthDataSource
-import com.arkan.a4crypto.data.datasource.auth.FirebaseAuthDataSource
-import com.arkan.a4crypto.data.repository.UserRepository
-import com.arkan.a4crypto.data.repository.UserRepositoryImpl
-import com.arkan.a4crypto.data.source.firebase.FirebaseService
-import com.arkan.a4crypto.data.source.firebase.FirebaseServiceImpl
 import com.arkan.a4crypto.databinding.ActivityLoginBinding
 import com.arkan.a4crypto.presentation.main.MainActivity
 import com.arkan.a4crypto.presentation.register.RegisterActivity
-import com.arkan.aresto.utils.GenericViewModelFactory
+import com.arkan.a4crypto.utils.highLightWord
 import com.arkan.aresto.utils.proceedWhen
 import com.google.android.material.textfield.TextInputLayout
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : AppCompatActivity() {
     private val binding: ActivityLoginBinding by lazy {
         ActivityLoginBinding.inflate(layoutInflater)
     }
-    private val viewModel: LoginViewModel by viewModels {
-        val s: FirebaseService = FirebaseServiceImpl()
-        val ds: AuthDataSource = FirebaseAuthDataSource(s)
-        val r: UserRepository = UserRepositoryImpl(ds)
-        GenericViewModelFactory.create(LoginViewModel(r))
-    }
+    private val loginViewModel: LoginViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +32,7 @@ class LoginActivity : AppCompatActivity() {
         binding.layoutFormLogin.btnLogin.setOnClickListener {
             doLogin()
         }
-        binding.layoutFormLogin.tvNavToRegister.setOnClickListener {
+        binding.layoutFormLogin.tvNavToRegister.highLightWord(getString(R.string.text_nav_to_register)) {
             navigateToRegister()
         }
     }
@@ -65,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun observeResult() {
-        viewModel.loginResult.observe(this) {
+        loginViewModel.loginResult.observe(this) {
             it.proceedWhen(
                 doOnSuccess = {
                     binding.layoutFormLogin.pbLogin.isVisible = false
@@ -93,7 +82,7 @@ class LoginActivity : AppCompatActivity() {
         if (isFormValid()) {
             val email = binding.layoutFormLogin.etEmailLogin.text.toString().trim()
             val password = binding.layoutFormLogin.etPasswordLogin.text.toString().trim()
-            viewModel.doLogin(email, password)
+            loginViewModel.doLogin(email, password)
         }
     }
 
