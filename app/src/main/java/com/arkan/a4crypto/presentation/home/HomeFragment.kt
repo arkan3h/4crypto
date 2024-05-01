@@ -7,32 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.arkan.a4crypto.R
-import com.arkan.a4crypto.data.datasource.CoinDataSource
-import com.arkan.a4crypto.data.datasource.CoinDataSourceImpl
-import com.arkan.a4crypto.data.repository.CoinRepository
-import com.arkan.a4crypto.data.repository.CoinRepositoryImpl
-import com.arkan.a4crypto.data.source.network.services.FourCryptoApiServices
 import com.arkan.a4crypto.databinding.FragmentHomeBinding
 import com.arkan.a4crypto.presentation.home.adapter.CoinAdapter
-import com.arkan.aresto.utils.GenericViewModelFactory
 import com.arkan.aresto.utils.proceedWhen
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private var coinAdapter = CoinAdapter()
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-
-    private val viewModel: HomeViewModel by viewModels {
-        val service = FourCryptoApiServices.invoke()
-        val ds: CoinDataSource = CoinDataSourceImpl(service)
-        val rp: CoinRepository = CoinRepositoryImpl(ds)
-        GenericViewModelFactory.create(
-            HomeViewModel(rp),
-        )
-    }
+    private val homeViewModel: HomeViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,7 +52,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getCoinData() {
-        viewModel.getCoinList().observe(viewLifecycleOwner) { it ->
+        homeViewModel.getCoinList().observe(viewLifecycleOwner) { it ->
             it.proceedWhen(
                 doOnLoading = {
                     binding.layoutState.pbLoading.isVisible = true

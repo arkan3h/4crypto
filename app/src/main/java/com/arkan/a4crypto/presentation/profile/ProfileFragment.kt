@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.arkan.a4crypto.R
 import com.arkan.a4crypto.databinding.FragmentProfileBinding
@@ -29,7 +28,7 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View {
+    ): View? {
         // Inflate the layout for this fragment
         binding = FragmentProfileBinding.inflate(layoutInflater, container, false)
         return binding.root
@@ -40,19 +39,9 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?,
     ) {
         super.onViewCreated(view, savedInstanceState)
-        checkUserLogin()
         setClickListener()
         getProfileData()
         changeEditMode()
-    }
-
-    private fun checkUserLogin() {
-        if (profileViewModel.isUserLoggedIn()) {
-            binding.btnEdit.isVisible = true
-            binding.btnLogout.isVisible = true
-            binding.btnChangePw.isVisible = true
-            binding.btnLogin.isVisible = false
-        }
     }
 
     private fun getProfileData() {
@@ -64,27 +53,35 @@ class ProfileFragment : Fragment() {
 
     private fun setClickListener() {
         binding.btnEdit.setOnClickListener {
-            count += 1
-            profileViewModel.changeEditMode()
-            if (count % 2 == 0) {
-                val name = binding.tvName.text.toString().trim()
-                binding.btnEdit.text = getString(R.string.text_edit_profile)
-                changeProfileName(name)
+            if (profileViewModel.isUserLoggedIn()) {
+                count += 1
+                profileViewModel.changeEditMode()
+                if (count % 2 == 0) {
+                    val name = binding.tvName.text.toString().trim()
+                    binding.btnEdit.setText(getString(R.string.text_edit_profile))
+                    changeProfileName(name)
+                } else {
+                    binding.btnEdit.setText(getString(R.string.text_save))
+                }
             } else {
-                binding.btnEdit.text = getString(R.string.text_save)
+                navigateToLogin()
             }
         }
 
         binding.btnLogout.setOnClickListener {
-            logoutUser()
+            if (profileViewModel.isUserLoggedIn()) {
+                logoutUser()
+            } else {
+                navigateToLogin()
+            }
         }
 
         binding.btnChangePw.setOnClickListener {
-            changePasswordUser()
-        }
-
-        binding.btnLogin.setOnClickListener {
-            navigateToLogin()
+            if (profileViewModel.isUserLoggedIn()) {
+                changePasswordUser()
+            } else {
+                navigateToLogin()
+            }
         }
     }
 
