@@ -12,30 +12,17 @@ import android.view.Window
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.arkan.a4crypto.R
-import com.arkan.a4crypto.data.datasource.auth.AuthDataSource
-import com.arkan.a4crypto.data.datasource.auth.FirebaseAuthDataSource
-import com.arkan.a4crypto.data.repository.UserRepository
-import com.arkan.a4crypto.data.repository.UserRepositoryImpl
-import com.arkan.a4crypto.data.source.firebase.FirebaseService
-import com.arkan.a4crypto.data.source.firebase.FirebaseServiceImpl
 import com.arkan.a4crypto.databinding.FragmentProfileBinding
 import com.arkan.a4crypto.presentation.login.LoginActivity
 import com.arkan.a4crypto.presentation.main.MainActivity
-import com.arkan.aresto.utils.GenericViewModelFactory
 import com.arkan.aresto.utils.proceedWhen
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private var count: Int = 0
-
-    private val viewModel: ProfileViewModel by viewModels {
-        val user: FirebaseService = FirebaseServiceImpl()
-        val userDataSource: AuthDataSource = FirebaseAuthDataSource(user)
-        val userRepo: UserRepository = UserRepositoryImpl(userDataSource)
-        GenericViewModelFactory.create(ProfileViewModel(userRepo))
-    }
+    private val profileViewModel: ProfileViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,7 +45,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun getProfileData() {
-        viewModel.getCurrentUser()?.let {
+        profileViewModel.getCurrentUser()?.let {
             binding.tvName.setText(it.fullName)
             binding.tvEmail.setText(it.email)
         }
@@ -66,9 +53,9 @@ class ProfileFragment : Fragment() {
 
     private fun setClickListener() {
         binding.btnEdit.setOnClickListener {
-            if (viewModel.isUserLoggedIn()) {
+            if (profileViewModel.isUserLoggedIn()) {
                 count += 1
-                viewModel.changeEditMode()
+                profileViewModel.changeEditMode()
                 if (count % 2 == 0) {
                     val name = binding.tvName.text.toString().trim()
                     binding.btnEdit.setText(getString(R.string.text_edit_profile))
@@ -82,7 +69,7 @@ class ProfileFragment : Fragment() {
         }
 
         binding.btnLogout.setOnClickListener {
-            if (viewModel.isUserLoggedIn()) {
+            if (profileViewModel.isUserLoggedIn()) {
                 logoutUser()
             } else {
                 navigateToLogin()
@@ -90,7 +77,7 @@ class ProfileFragment : Fragment() {
         }
 
         binding.btnChangePw.setOnClickListener {
-            if (viewModel.isUserLoggedIn()) {
+            if (profileViewModel.isUserLoggedIn()) {
                 changePasswordUser()
             } else {
                 navigateToLogin()
@@ -99,7 +86,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun changeEditMode() {
-        viewModel.isEditMode.observe(viewLifecycleOwner) {
+        profileViewModel.isEditMode.observe(viewLifecycleOwner) {
             binding.tvName.isEnabled = it
             binding.tvEmail.isEnabled = it
         }
@@ -111,7 +98,7 @@ class ProfileFragment : Fragment() {
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.layout_dialog_change_password)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        viewModel.changePassword()
+        profileViewModel.changePassword()
         val backBtn: Button = dialog.findViewById(R.id.btn_back)
         backBtn.setOnClickListener {
             dialog.dismiss()
@@ -120,11 +107,11 @@ class ProfileFragment : Fragment() {
     }
 
     private fun changeProfileName(fullName: String) {
-        viewModel.changeProfile(fullName).observe(viewLifecycleOwner) {
+        profileViewModel.changeProfile(fullName).observe(viewLifecycleOwner) {
             it.proceedWhen(
                 doOnSuccess = {
                     Toast.makeText(requireContext(), getString(R.string.text_link_edit_profile_success), Toast.LENGTH_SHORT).show()
-                    viewModel.changeEditMode()
+                    profileViewModel.changeEditMode()
                 },
                 doOnError = {
                     Toast.makeText(requireContext(), getString(R.string.text_link_edit_profile_failed), Toast.LENGTH_SHORT).show()
@@ -147,7 +134,7 @@ class ProfileFragment : Fragment() {
         }
         btnLogout.setOnClickListener {
             dialog.dismiss()
-            viewModel.doLogout()
+            profileViewModel.doLogout()
             navigateToHome()
         }
         dialog.show()

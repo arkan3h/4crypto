@@ -4,34 +4,22 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.arkan.a4crypto.R
-import com.arkan.a4crypto.data.datasource.auth.AuthDataSource
-import com.arkan.a4crypto.data.datasource.auth.FirebaseAuthDataSource
-import com.arkan.a4crypto.data.repository.UserRepository
-import com.arkan.a4crypto.data.repository.UserRepositoryImpl
-import com.arkan.a4crypto.data.source.firebase.FirebaseService
-import com.arkan.a4crypto.data.source.firebase.FirebaseServiceImpl
 import com.arkan.a4crypto.databinding.ActivityRegisterBinding
 import com.arkan.a4crypto.presentation.login.LoginActivity
 import com.arkan.a4crypto.presentation.main.MainActivity
-import com.arkan.aresto.utils.GenericViewModelFactory
+import com.arkan.a4crypto.utils.highLightWord
 import com.arkan.aresto.utils.proceedWhen
 import com.google.android.material.textfield.TextInputLayout
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterActivity : AppCompatActivity() {
     private val binding: ActivityRegisterBinding by lazy {
         ActivityRegisterBinding.inflate(layoutInflater)
     }
-
-    private val viewModel: RegisterViewModel by viewModels {
-        val s: FirebaseService = FirebaseServiceImpl()
-        val ds: AuthDataSource = FirebaseAuthDataSource(s)
-        val r: UserRepository = UserRepositoryImpl(ds)
-        GenericViewModelFactory.create(RegisterViewModel(r))
-    }
+    private val registerViewModel: RegisterViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +31,7 @@ class RegisterActivity : AppCompatActivity() {
         binding.btnRegister.setOnClickListener {
             doRegister()
         }
-        binding.tvNavToLogin.setOnClickListener {
+        binding.tvNavToLogin.highLightWord(getString(R.string.text_click_login_here)) {
             navigateToLogin()
         }
     }
@@ -62,7 +50,7 @@ class RegisterActivity : AppCompatActivity() {
         password: String,
         fullName: String,
     ) {
-        viewModel.doRegister(email, fullName, password).observe(this) {
+        registerViewModel.doRegister(email, fullName, password).observe(this) {
             it.proceedWhen(
                 doOnSuccess = {
                     binding.pbLoading.isVisible = false
