@@ -3,19 +3,31 @@ package com.arkan.a4crypto.presentation.detail
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import coil.load
 import com.arkan.a4crypto.R
+import com.arkan.a4crypto.data.datasource.CoinDetailDataSource
+import com.arkan.a4crypto.data.datasource.CoinDetailDataSourceImpl
+import com.arkan.a4crypto.data.datasource.favorite.FavoriteDataSource
+import com.arkan.a4crypto.data.datasource.favorite.FavoriteDatabaseDataSource
 import com.arkan.a4crypto.data.model.CoinDetail
+import com.arkan.a4crypto.data.repository.CoinDetailRepository
+import com.arkan.a4crypto.data.repository.CoinDetailRepositoryImpl
+import com.arkan.a4crypto.data.repository.FavoriteRepositoryImpl
+import com.arkan.a4crypto.data.source.AppDatabase
+import com.arkan.a4crypto.data.source.network.services.FourCryptoApiServices
 import com.arkan.a4crypto.databinding.ActivityDetailBinding
+import com.arkan.aresto.utils.GenericViewModelFactory
 import com.arkan.aresto.utils.proceedWhen
 import com.arkan.aresto.utils.toDollarFormat
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 
 class DetailActivity : AppCompatActivity() {
     companion object {
@@ -26,8 +38,21 @@ class DetailActivity : AppCompatActivity() {
         ActivityDetailBinding.inflate(layoutInflater)
     }
 
-    private val detailViewModel: DetailViewModel by viewModel {
-        parametersOf(intent.extras)
+    private val viewModel: DetailViewModel by viewModels {
+        var ApiDataServices = FourCryptoApiServices.invoke()
+        val database = AppDatabase.getInstance(this)
+        val favoriteDataSource: FavoriteDataSource = FavoriteDatabaseDataSource(database.favoriteDao())
+        val favoriteRepository = FavoriteRepositoryImpl(favoriteDataSource)
+
+        val catalogDataSource: CoinDetailDataSource = CoinDetailDataSourceImpl(ApiDataServices)
+        val catalogRepository: CoinDetailRepository = CoinDetailRepositoryImpl(catalogDataSource)
+        GenericViewModelFactory.create(
+            DetailViewModel(
+                intent?.extras,
+                catalogRepository,
+                favoriteRepository,
+            ),
+        )
     }
 
     private lateinit var url: String
@@ -51,7 +76,7 @@ class DetailActivity : AppCompatActivity() {
             backNavigation()
         }
         binding.btnDetailFav.setOnClickListener {
-            // Fun add to favorite
+            addCoinToFavorite()
         }
         binding.btnGoToWeb.setOnClickListener {
             goToWeb()
@@ -61,7 +86,7 @@ class DetailActivity : AppCompatActivity() {
     private fun backNavigation() = onBackPressedDispatcher.onBackPressed()
 
     private fun getDetailInfo() {
-        detailViewModel.getDetailInfo().observe(this) { it ->
+        viewModel.getDetailInfo().observe(this) { it ->
             it.proceedWhen(
                 doOnLoading = {
                     binding.svDetail.isVisible = false
@@ -95,6 +120,36 @@ class DetailActivity : AppCompatActivity() {
         binding.tvDetailName.text = data.name
         binding.tvDetailDesc.text = data.desc
         binding.tvDetailPrice.text = data.price.toDollarFormat()
+    }
+
+    private fun addCoinToFavorite() {
+        viewModel.addToFavorite().observe(this) {
+            it.proceedWhen(
+                doOnSuccess = {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.text_succes_add_to_favorite),
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                    finish()
+                },
+                doOnError = {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.text_faliled_add_to_favorite),
+                        Toast.LENGTH_SHORT,
+                    )
+                        .show()
+                },
+                doOnLoading = {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.text_load_add_to_favorite),
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                },
+            )
+        }
     }
 
     private fun setUrl(data: CoinDetail) {
