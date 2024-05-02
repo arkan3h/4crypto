@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.arkan.a4crypto.R
 import com.arkan.a4crypto.data.model.Coin
 import com.arkan.a4crypto.databinding.FragmentHomeBinding
 import com.arkan.a4crypto.presentation.detail.DetailActivity
