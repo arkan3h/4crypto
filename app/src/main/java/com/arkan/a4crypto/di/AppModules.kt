@@ -24,6 +24,7 @@ import com.arkan.a4crypto.presentation.home.HomeViewModel
 import com.arkan.a4crypto.presentation.login.LoginViewModel
 import com.arkan.a4crypto.presentation.profile.ProfileViewModel
 import com.arkan.a4crypto.presentation.register.RegisterViewModel
+import com.arkan.a4crypto.presentation.splash.SplashViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -63,6 +64,7 @@ object AppModules {
             viewModelOf(::RegisterViewModel)
             viewModelOf(::ProfileViewModel)
             viewModelOf(::DetailViewModel)
+            viewModelOf(::SplashViewModel)
         }
 
     val modules =
