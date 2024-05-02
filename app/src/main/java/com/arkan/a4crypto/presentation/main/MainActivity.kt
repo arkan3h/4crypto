@@ -25,10 +25,23 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         setupBottomNav()
+        setOnclickAction()
+    }
+
+    private fun setOnclickAction() {
+        binding.navBottom.fab.setOnClickListener {
+            navigateToFavorite()
+        }
     }
 
     private fun setupBottomNav() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         binding.navBottom.navView.setupWithNavController(navController)
+    }
+
+    fun navigateToFavorite() {
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        binding.navBottom.navView.selectedItemId = R.id.menu_tab_favorite
+        navController.navigate(R.id.menu_tab_favorite)
     }
 }

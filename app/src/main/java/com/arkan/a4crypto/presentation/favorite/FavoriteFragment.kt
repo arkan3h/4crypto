@@ -68,6 +68,7 @@ class FavoriteFragment : Fragment() {
         setupList()
         observeData()
         setClickListener()
+        checkIfUserLogin()
     }
 
     private fun setClickListener() {
@@ -75,8 +76,10 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun setupList() {
-        binding.rvFavorite.itemAnimator = null
-        binding.rvFavorite.adapter = adapter
+        if (viewModel.isUserLoggedIn()) {
+            binding.rvFavorite.itemAnimator = null
+            binding.rvFavorite.adapter = adapter
+        }
     }
 
     private fun observeData() {
