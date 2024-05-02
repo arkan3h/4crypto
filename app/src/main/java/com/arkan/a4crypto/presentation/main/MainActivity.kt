@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         binding.navView.setupWithNavController(navController)
     }
 
-    fun navigateToFavorite() {
+    private fun navigateToFavorite() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         binding.navView.selectedItemId = R.id.menu_tab_favorite
         navController.navigate(R.id.menu_tab_favorite)

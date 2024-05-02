@@ -22,7 +22,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@drawable/bg_gray_spacer"
+        android:background="@color/gray_spacer"
+        android:elevation="1dp"
         app:layout_constraintBottom_toTopOf="@id/nav_view"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
