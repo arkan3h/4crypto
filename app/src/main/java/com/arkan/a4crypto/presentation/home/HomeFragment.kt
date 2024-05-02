@@ -1,5 +1,6 @@
 package com.arkan.a4crypto.presentation.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -9,14 +10,17 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.arkan.a4crypto.R
+import com.arkan.a4crypto.data.model.Coin
 import com.arkan.a4crypto.databinding.FragmentHomeBinding
+import com.arkan.a4crypto.presentation.detail.DetailActivity
 import com.arkan.a4crypto.presentation.home.adapter.CoinAdapter
+import com.arkan.a4crypto.presentation.home.adapter.OnItemCLickedListener
 import com.arkan.aresto.utils.proceedWhen
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private var coinAdapter = CoinAdapter()
+    private var coinAdapter: CoinAdapter? = null
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private val homeViewModel: HomeViewModel by viewModel()
 
@@ -35,7 +39,6 @@ class HomeFragment : Fragment() {
     ) {
         super.onViewCreated(view, savedInstanceState)
         getCoinData()
-        bindCoinList()
         refreshLayout()
     }
 
@@ -43,7 +46,6 @@ class HomeFragment : Fragment() {
         swipeRefreshLayout = binding.swipeHome
         swipeRefreshLayout.setOnRefreshListener {
             getCoinData()
-            bindCoinList()
             Handler().postDelayed(
                 { swipeRefreshLayout.isRefreshing = false },
                 1000,
@@ -70,7 +72,7 @@ class HomeFragment : Fragment() {
                     binding.layoutState.tvError.isVisible = false
                     binding.rvListCoin.isVisible = true
                     it.payload?.let { data ->
-                        coinAdapter.submitData(data)
+                        bindCoinList(data)
                     }
                 },
                 doOnEmpty = {
@@ -83,7 +85,26 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun bindCoinList() {
+    private fun bindCoinList(data: List<Coin>) {
+        coinAdapter =
+            CoinAdapter(
+                listener =
+                    object : OnItemCLickedListener<Coin> {
+                        override fun onItemClicked(item: Coin) {
+                            navigateToDetail(item)
+                        }
+                    },
+            )
         binding.rvListCoin.adapter = this@HomeFragment.coinAdapter
+        coinAdapter?.submitData(data)
+    }
+
+    private fun navigateToDetail(item: Coin) {
+        startActivity(
+            Intent(activity, DetailActivity::class.java).putExtra(
+                DetailActivity.EXTRAS_ITEM_ACT,
+                item,
+            ),
+        )
     }
 }

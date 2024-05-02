@@ -8,14 +8,13 @@ import com.arkan.aresto.utils.proceedFlow
 import kotlinx.coroutines.flow.Flow
 
 interface CoinDetailRepository {
-    fun getCoinDetail(id: String) : Flow<ResultWrapper<List<CoinDetail>>>
+    fun getCoinDetail(id: String): Flow<ResultWrapper<List<CoinDetail>>>
 }
 
 class CoinDetailRepositoryImpl(
-    private val dataSource: CoinDetailDataSource
+    private val dataSource: CoinDetailDataSource,
 ) : CoinDetailRepository {
     override fun getCoinDetail(id: String): Flow<ResultWrapper<List<CoinDetail>>> {
         return proceedFlow { dataSource.getCoinDetail(id = id).toCoinDetail() }
     }
-
 }
