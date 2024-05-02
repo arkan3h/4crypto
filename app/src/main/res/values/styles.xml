@@ -6,4 +6,7 @@
     <style name="image_rounded_medium">
         <item name="cornerSize">8dp</item>
     </style>
+
+
+
 </resources>
