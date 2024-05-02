@@ -10,7 +10,9 @@ import com.arkan.a4crypto.data.model.Coin
 import com.arkan.a4crypto.databinding.ItemHomeListCoinBinding
 import com.arkan.aresto.utils.toDollarFormat
 
-class CoinAdapter : RecyclerView.Adapter<CoinAdapter.CoinViewHolder>() {
+class CoinAdapter(
+    private val listener: OnItemCLickedListener<Coin>,
+) : RecyclerView.Adapter<CoinAdapter.CoinViewHolder>() {
     private val asyncDataDiffer =
         AsyncListDiffer(
             this,
@@ -45,6 +47,7 @@ class CoinAdapter : RecyclerView.Adapter<CoinAdapter.CoinViewHolder>() {
                 parent,
                 false,
             ),
+            listener,
         )
     }
 
@@ -57,13 +60,23 @@ class CoinAdapter : RecyclerView.Adapter<CoinAdapter.CoinViewHolder>() {
         holder.bind(asyncDataDiffer.currentList[position])
     }
 
-    class CoinViewHolder(private val binding: ItemHomeListCoinBinding) :
+    class CoinViewHolder(
+        private val binding: ItemHomeListCoinBinding,
+        private val listener: OnItemCLickedListener<Coin>,
+    ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Coin) {
             binding.ivImgItemHome.load(item.image)
             binding.tvItemHomeTitle.text = item.name
             binding.tvItemHomeDesk.text = item.desc
             binding.tvItemHomePrice.text = item.price.toDollarFormat()
+            itemView.setOnClickListener {
+                listener.onItemClicked(item)
+            }
         }
     }
+}
+
+interface OnItemCLickedListener<T> {
+    fun onItemClicked(item: T)
 }

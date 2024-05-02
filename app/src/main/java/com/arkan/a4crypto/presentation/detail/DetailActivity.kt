@@ -9,6 +9,10 @@ import com.arkan.a4crypto.R
 import com.arkan.a4crypto.databinding.ActivityDetailBinding
 
 class DetailActivity : AppCompatActivity() {
+    companion object {
+        const val EXTRAS_ITEM_ACT = "EXTRAS_ITEM_ACT"
+    }
+
     private val binding: ActivityDetailBinding by lazy {
         ActivityDetailBinding.inflate(layoutInflater)
     }
