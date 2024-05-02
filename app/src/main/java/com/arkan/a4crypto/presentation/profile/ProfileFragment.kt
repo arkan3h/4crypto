@@ -11,12 +11,10 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.arkan.a4crypto.R
 import com.arkan.a4crypto.databinding.FragmentProfileBinding
 import com.arkan.a4crypto.presentation.login.LoginActivity
-import com.arkan.a4crypto.presentation.main.MainActivity
 import com.arkan.aresto.utils.proceedWhen
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -30,7 +28,6 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentProfileBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -40,19 +37,9 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?,
     ) {
         super.onViewCreated(view, savedInstanceState)
-        checkUserLogin()
         setClickListener()
         getProfileData()
         changeEditMode()
-    }
-
-    private fun checkUserLogin() {
-        if (profileViewModel.isUserLoggedIn()) {
-            binding.btnEdit.isVisible = true
-            binding.btnLogout.isVisible = true
-            binding.btnChangePw.isVisible = true
-            binding.btnLogin.isVisible = false
-        }
     }
 
     private fun getProfileData() {
@@ -81,10 +68,6 @@ class ProfileFragment : Fragment() {
 
         binding.btnChangePw.setOnClickListener {
             changePasswordUser()
-        }
-
-        binding.btnLogin.setOnClickListener {
-            navigateToLogin()
         }
     }
 
@@ -138,18 +121,14 @@ class ProfileFragment : Fragment() {
         btnLogout.setOnClickListener {
             dialog.dismiss()
             profileViewModel.doLogout()
-            navigateToHome()
+            navigateToLogin()
         }
         dialog.show()
     }
 
     private fun navigateToLogin() {
-        startActivity(Intent(requireContext(), LoginActivity::class.java))
-    }
-
-    private fun navigateToHome() {
         startActivity(
-            Intent(requireContext(), MainActivity::class.java).apply {
+            Intent(requireContext(), LoginActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             },
         )

@@ -22,8 +22,6 @@ class ProfileViewModel(private val repo: UserRepository) : ViewModel() {
 
     fun getCurrentUser() = repo.getCurrentUser()
 
-    fun isUserLoggedIn() = repo.isLoggedIn()
-
     fun doLogout() {
         repo.doLogout()
     }

@@ -39,12 +39,12 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private val viewModel: DetailViewModel by viewModels {
-        var ApiDataServices = FourCryptoApiServices.invoke()
+        val apiDataServices = FourCryptoApiServices.invoke()
         val database = AppDatabase.getInstance(this)
         val favoriteDataSource: FavoriteDataSource = FavoriteDatabaseDataSource(database.favoriteDao())
         val favoriteRepository = FavoriteRepositoryImpl(favoriteDataSource)
 
-        val catalogDataSource: CoinDetailDataSource = CoinDetailDataSourceImpl(ApiDataServices)
+        val catalogDataSource: CoinDetailDataSource = CoinDetailDataSourceImpl(apiDataServices)
         val catalogRepository: CoinDetailRepository = CoinDetailRepositoryImpl(catalogDataSource)
         GenericViewModelFactory.create(
             DetailViewModel(
@@ -62,7 +62,7 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.detail)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -138,8 +138,36 @@ class DetailActivity : AppCompatActivity() {
                         this,
                         getString(R.string.text_faliled_add_to_favorite),
                         Toast.LENGTH_SHORT,
-                    )
-                        .show()
+                    ).show()
+                },
+                doOnLoading = {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.text_load_add_to_favorite),
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                },
+            )
+        }
+    }
+
+    private fun deleteCoinFromFavorite() {
+        viewModel.removeFavorite().observe(this) {
+            it.proceedWhen(
+                doOnSuccess = {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.text_succes_add_to_favorite),
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                    finish()
+                },
+                doOnError = {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.text_faliled_add_to_favorite),
+                        Toast.LENGTH_SHORT,
+                    ).show()
                 },
                 doOnLoading = {
                     Toast.makeText(

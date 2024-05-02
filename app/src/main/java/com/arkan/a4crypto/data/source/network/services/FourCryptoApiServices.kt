@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 interface FourCryptoApiServices {
     @GET("markets")
     suspend fun getCoinList(
-        @Query("vs_currency") vs_currency: String = "usd",
+        @Query("vs_currency") vsCurrency: String = "usd",
     ): List<CoinResponse>
 
     @GET("{id}")
