@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="14dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
         android:layout_width="match_parent"
@@ -16,46 +15,46 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_greetings"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                tools:text= "Hi, Valentina"
-                android:layout_margin="16dp"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:textColor="@color/white"/>
+    <TextView
+        android:id="@+id/tv_greetings"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        tools:text= "Hi, Valentina"
+        android:layout_margin="16dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/white"/>
 
-            <TextView
-                android:id="@+id/tv_banner"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="16dp"
-                android:ellipsize="end"
-                android:text="@string/text_banner"
-                android:textSize="14sp"
-                android:textStyle="normal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_greetings"
-                android:textColor="@color/white"/>
+    <TextView
+        android:id="@+id/tv_banner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:ellipsize="end"
+        android:text="@string/text_banner"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_greetings"
+        android:textColor="@color/white"/>
 
-            <Button
-                android:id="@+id/btn_order_now"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/text_btn_banner"
-                android:fontFamily="@font/font_jakarta_bold"
-                app:layout_constraintTop_toBottomOf="@id/tv_banner"
-                android:backgroundTint="@color/white"
-                android:textColor="@color/md_theme_primary"
-                app:layout_constraintStart_toStartOf="parent" />
+    <Button
+        android:id="@+id/btn_order_now"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:text="@string/text_btn_banner"
+        android:paddingTop="2dp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tv_banner"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/md_theme_onPrimaryFixedVariant"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
