@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.arkan.a4crypto.R
 import com.arkan.a4crypto.data.model.Coin
 import com.arkan.a4crypto.databinding.FragmentHomeBinding
 import com.arkan.a4crypto.presentation.detail.DetailActivity
@@ -32,6 +33,13 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    private fun showUserData() {
+        homeViewModel.getCurrentUser()?.let { user ->
+            binding.layoutBanner.tvGreetings.text =
+                getString(R.string.text_greetings, user.fullName)
+        }
+    }
+
     override fun onViewCreated(
         view: View,
         savedInstanceState: Bundle?,
@@ -39,6 +47,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         getCoinData()
         refreshLayout()
+        showUserData()
     }
 
     private fun refreshLayout() {
