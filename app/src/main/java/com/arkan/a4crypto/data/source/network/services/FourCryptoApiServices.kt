@@ -20,8 +20,8 @@ interface FourCryptoApiServices {
 
     @GET("{id}")
     suspend fun getCoinDetail(
-        @Path("id") id: String,
-    ): List<CoinDetailResponse>
+        @Path("id") id: String?,
+    ): CoinDetailResponse
 
     companion object {
         @JvmStatic

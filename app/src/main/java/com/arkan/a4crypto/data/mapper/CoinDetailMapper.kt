@@ -12,8 +12,3 @@ fun CoinDetailResponse.toCoinDetail() =
         desc = this.description?.en.orEmpty(),
         price = this.market?.price?.usd ?: 0.0,
     )
-
-fun Collection<CoinDetailResponse>.toCoinDetail() =
-    this.map {
-        it.toCoinDetail()
-    }
