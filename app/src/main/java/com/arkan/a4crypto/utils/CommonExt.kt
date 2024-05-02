@@ -10,6 +10,8 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.fragment.app.Fragment
+import java.text.NumberFormat
+import java.util.Locale
 
 val Number.toPx
     get() =
@@ -48,4 +50,9 @@ fun Activity.hideKeyboard() {
 fun Context.hideKeyboard(view: View) {
     val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+}
+
+fun Double.formatToIDRCurrency(): String {
+    val formatter = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
+    return formatter.format(this)
 }
