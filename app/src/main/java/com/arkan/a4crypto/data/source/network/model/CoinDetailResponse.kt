@@ -23,20 +23,20 @@ data class Image(
     @SerializedName("small")
     var small: String? = null,
     @SerializedName("thumb")
-    var thumb: String? = null,
+    var thumb: String? = null
 )
 
 data class Description(
     @SerializedName("en")
-    var en: String? = null,
+    var en: String? = null
 )
 
 data class Market(
     @SerializedName("current_price")
-    var price: Price? = null,
+    var price: Price? = null
 )
 
 data class Price(
     @SerializedName("usd")
-    var usd: Double? = null,
+    var usd: Double? = null
 )
