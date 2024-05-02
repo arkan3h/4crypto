@@ -32,6 +32,13 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    private fun showUserData() {
+        homeViewModel.getCurrentUser()?.let { user ->
+            binding.layoutBanner.tvGreetings.text =
+                getString(R.string.text_greetings, user.fullName)
+        }
+    }
+
     override fun onViewCreated(
         view: View,
         savedInstanceState: Bundle?,
@@ -39,6 +46,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         getCoinData()
         refreshLayout()
+        showUserData()
     }
 
     private fun refreshLayout() {
