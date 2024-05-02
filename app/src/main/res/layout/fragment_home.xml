@@ -46,7 +46,7 @@
 
             <include
                 android:id="@+id/layout_state"
-                layout="@layout/layout_content_state"
+                layout="@layout/layout_content_state_item_coin"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginTop="32dp"

@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.arkan.a4crypto.R
 import com.arkan.a4crypto.data.model.Coin
 import com.arkan.a4crypto.databinding.FragmentHomeBinding
 import com.arkan.a4crypto.presentation.detail.DetailActivity
@@ -64,7 +63,6 @@ class HomeFragment : Fragment() {
                 doOnError = {
                     binding.layoutState.pbLoading.isVisible = false
                     binding.layoutState.tvError.isVisible = true
-                    binding.layoutState.tvError.text = it.exception?.message.orEmpty()
                     binding.rvListCoin.isVisible = false
                 },
                 doOnSuccess = {
@@ -78,7 +76,6 @@ class HomeFragment : Fragment() {
                 doOnEmpty = {
                     binding.layoutState.pbLoading.isVisible = false
                     binding.layoutState.tvError.isVisible = true
-                    binding.layoutState.tvError.text = getString(R.string.text_coin_is_empty)
                     binding.rvListCoin.isVisible = false
                 },
             )

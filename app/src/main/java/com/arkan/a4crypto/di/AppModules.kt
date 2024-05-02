@@ -6,10 +6,14 @@ import com.arkan.a4crypto.data.datasource.CoinDetailDataSource
 import com.arkan.a4crypto.data.datasource.CoinDetailDataSourceImpl
 import com.arkan.a4crypto.data.datasource.auth.AuthDataSource
 import com.arkan.a4crypto.data.datasource.auth.FirebaseAuthDataSource
+import com.arkan.a4crypto.data.datasource.favorite.FavoriteDataSource
+import com.arkan.a4crypto.data.datasource.favorite.FavoriteDatabaseDataSource
 import com.arkan.a4crypto.data.repository.CoinDetailRepository
 import com.arkan.a4crypto.data.repository.CoinDetailRepositoryImpl
 import com.arkan.a4crypto.data.repository.CoinRepository
 import com.arkan.a4crypto.data.repository.CoinRepositoryImpl
+import com.arkan.a4crypto.data.repository.FavoriteRepository
+import com.arkan.a4crypto.data.repository.FavoriteRepositoryImpl
 import com.arkan.a4crypto.data.repository.UserRepository
 import com.arkan.a4crypto.data.repository.UserRepositoryImpl
 import com.arkan.a4crypto.data.source.firebase.FirebaseService
@@ -29,6 +33,8 @@ object AppModules {
             single<FourCryptoApiServices> { FourCryptoApiServices.invoke() }
         }
 
+//    how to setup using database
+
     private val firebaseModule =
         module {
             single<AuthDataSource> { FirebaseAuthDataSource(get()) }
@@ -39,6 +45,7 @@ object AppModules {
         module {
             single<CoinDataSource> { CoinDataSourceImpl(get()) }
             single<CoinDetailDataSource> { CoinDetailDataSourceImpl(get()) }
+            single<FavoriteDataSource> { FavoriteDatabaseDataSource(get()) }
         }
 
     private val repository =
@@ -46,6 +53,7 @@ object AppModules {
             single<CoinRepository> { CoinRepositoryImpl(get()) }
             single<UserRepository> { UserRepositoryImpl(get()) }
             single<CoinDetailRepository> { CoinDetailRepositoryImpl(get()) }
+            single<FavoriteRepository> { FavoriteRepositoryImpl(get()) }
         }
 
     private val viewModelModule =
