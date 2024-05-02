@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.arkan.a4crypto.data.model.Favorite
 import com.arkan.a4crypto.databinding.ItemFavoriteListBinding
-import com.arkan.aresto.utils.formatToIDRCurrency
+import com.arkan.aresto.utils.toDollarFormat
 
 class FavoriteListAdapter(private val favoriteListener: FavoriteListener? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -86,7 +86,7 @@ class FavoriteViewHolder(
                 crossfade(true)
             }
             tvItemFavoriteTitle.text = item.catalogName
-            tvItemFavoritePrice.text = item.catalogPrice.formatToIDRCurrency()
+            tvItemFavoritePrice.text = item.catalogPrice.toDollarFormat()
         }
     }
 
