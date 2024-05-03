@@ -54,6 +54,7 @@ class HomeFragment : Fragment() {
         swipeRefreshLayout = binding.swipeHome
         swipeRefreshLayout.setOnRefreshListener {
             getCoinData()
+            showUserData()
             Handler().postDelayed(
                 { swipeRefreshLayout.isRefreshing = false },
                 1000,

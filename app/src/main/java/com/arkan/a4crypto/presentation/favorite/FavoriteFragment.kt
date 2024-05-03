@@ -6,29 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import com.arkan.a4crypto.data.datasource.favorite.FavoriteDataSource
-import com.arkan.a4crypto.data.datasource.favorite.FavoriteDatabaseDataSource
 import com.arkan.a4crypto.data.model.Favorite
-import com.arkan.a4crypto.data.repository.FavoriteRepository
-import com.arkan.a4crypto.data.repository.FavoriteRepositoryImpl
-import com.arkan.a4crypto.data.source.AppDatabase
 import com.arkan.a4crypto.databinding.FragmentFavoriteBinding
 import com.arkan.a4crypto.presentation.favorite.adapter.FavoriteListAdapter
 import com.arkan.a4crypto.presentation.favorite.adapter.FavoriteListener
-import com.arkan.aresto.utils.GenericViewModelFactory
 import com.arkan.aresto.utils.proceedWhen
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoriteFragment : Fragment() {
     private lateinit var binding: FragmentFavoriteBinding
 
-    private val viewModel: FavoriteViewModel by viewModels {
-        val database = AppDatabase.getInstance(requireContext())
-        val favoriteDao = database.favoriteDao()
-        val favoriteDataSource: FavoriteDataSource = FavoriteDatabaseDataSource(favoriteDao)
-        val favoriteRepo: FavoriteRepository = FavoriteRepositoryImpl(favoriteDataSource)
-        GenericViewModelFactory.create(FavoriteViewModel(favoriteRepo))
-    }
+    private val viewModel: FavoriteViewModel by viewModel()
     private val adapter: FavoriteListAdapter by lazy {
         FavoriteListAdapter(
             object : FavoriteListener {
