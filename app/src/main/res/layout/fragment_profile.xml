@@ -74,7 +74,6 @@
             android:layout_marginTop="32dp"
             android:text="@string/text_edit_profile"
             android:textColor="?attr/colorSurface"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cv_1" />
@@ -86,7 +85,6 @@
             android:layout_marginTop="16dp"
             android:text="@string/text_change_password"
             android:textColor="?attr/colorSurface"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_edit" />
@@ -98,21 +96,9 @@
             android:layout_marginTop="16dp"
             android:text="@string/text_logout"
             android:textColor="?attr/colorSurface"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_changePw" />
-
-        <Button
-            android:id="@+id/btn_login"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="@string/text_btn_login"
-            android:textColor="?attr/colorSurface"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cv_1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

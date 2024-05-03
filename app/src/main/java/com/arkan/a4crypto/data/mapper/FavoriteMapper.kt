@@ -4,7 +4,6 @@ import com.arkan.a4crypto.data.source.entity.FavoriteEntity
 
 fun Favorite?.toFavoriteEntity() =
     FavoriteEntity(
-        id = this?.id,
         catalogId = this?.catalogId.orEmpty(),
         catalogName = this?.catalogName.orEmpty(),
         catalogPrice = this?.catalogPrice ?: 0.0,
@@ -13,7 +12,6 @@ fun Favorite?.toFavoriteEntity() =
 
 fun FavoriteEntity?.toFavorite() =
     Favorite(
-        id = this?.id,
         catalogId = this?.catalogId.orEmpty(),
         catalogName = this?.catalogName.orEmpty(),
         catalogPrice = this?.catalogPrice ?: 0.0,

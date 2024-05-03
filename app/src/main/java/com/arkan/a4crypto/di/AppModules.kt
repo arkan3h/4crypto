@@ -16,15 +16,20 @@ import com.arkan.a4crypto.data.repository.FavoriteRepository
 import com.arkan.a4crypto.data.repository.FavoriteRepositoryImpl
 import com.arkan.a4crypto.data.repository.UserRepository
 import com.arkan.a4crypto.data.repository.UserRepositoryImpl
+import com.arkan.a4crypto.data.source.AppDatabase
+import com.arkan.a4crypto.data.source.dao.FavoriteDao
 import com.arkan.a4crypto.data.source.firebase.FirebaseService
 import com.arkan.a4crypto.data.source.firebase.FirebaseServiceImpl
 import com.arkan.a4crypto.data.source.network.services.FourCryptoApiServices
 import com.arkan.a4crypto.presentation.detail.DetailViewModel
+import com.arkan.a4crypto.presentation.favorite.FavoriteViewModel
 import com.arkan.a4crypto.presentation.home.HomeViewModel
 import com.arkan.a4crypto.presentation.login.LoginViewModel
 import com.arkan.a4crypto.presentation.profile.ProfileViewModel
 import com.arkan.a4crypto.presentation.register.RegisterViewModel
 import com.arkan.a4crypto.presentation.splash.SplashViewModel
+import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -34,7 +39,11 @@ object AppModules {
             single<FourCryptoApiServices> { FourCryptoApiServices.invoke() }
         }
 
-//    how to setup using database
+    private val localModule =
+        module {
+            single<AppDatabase> { AppDatabase.getInstance(androidContext()) }
+            single<FavoriteDao> { get<AppDatabase>().favoriteDao() }
+        }
 
     private val firebaseModule =
         module {
@@ -63,13 +72,21 @@ object AppModules {
             viewModelOf(::LoginViewModel)
             viewModelOf(::RegisterViewModel)
             viewModelOf(::ProfileViewModel)
-            viewModelOf(::DetailViewModel)
             viewModelOf(::SplashViewModel)
+            viewModelOf(::FavoriteViewModel)
+            viewModel { params ->
+                DetailViewModel(
+                    extras = params.get(),
+                    coinDetailRepository = get(),
+                    favoriteRepository = get(),
+                )
+            }
         }
 
     val modules =
         listOf(
             networkModule,
+            localModule,
             datasource,
             repository,
             firebaseModule,

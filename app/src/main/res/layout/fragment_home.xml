@@ -55,7 +55,7 @@
                 layout="@layout/layout_content_state_item_coin"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_title_home" />

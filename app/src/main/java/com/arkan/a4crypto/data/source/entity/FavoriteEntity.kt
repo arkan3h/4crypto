@@ -6,10 +6,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "favorites")
 data class FavoriteEntity(
-    @PrimaryKey(autoGenerate = true)
-    var id: Int? = null,
-    @ColumnInfo(name = "catalog_id")
-    var catalogId: String? = null,
+    @PrimaryKey
+    var catalogId: String,
     @ColumnInfo(name = "catalog_name")
     var catalogName: String,
     @ColumnInfo(name = "catalog_img_url")

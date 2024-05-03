@@ -10,7 +10,7 @@ import com.arkan.a4crypto.data.repository.CoinDetailRepository
 import com.arkan.a4crypto.data.repository.FavoriteRepository
 import com.arkan.aresto.utils.ResultWrapper
 import kotlinx.coroutines.Dispatchers
-import java.lang.IllegalStateException
+import kotlin.IllegalStateException
 
 class DetailViewModel(
     extras: Bundle?,
@@ -25,5 +25,11 @@ class DetailViewModel(
         return product?.let {
             favoriteRepository.createFavorite(it).asLiveData(Dispatchers.IO)
         } ?: liveData { emit(ResultWrapper.Error(IllegalStateException("Catalog not found"))) }
+    }
+
+    fun removeFavorite(): LiveData<ResultWrapper<Boolean>> {
+        return product?.let {
+            favoriteRepository.undoFavorite(it).asLiveData(Dispatchers.IO)
+        } ?: liveData { emit(ResultWrapper.Error(IllegalStateException("Coin not Found"))) }
     }
 }

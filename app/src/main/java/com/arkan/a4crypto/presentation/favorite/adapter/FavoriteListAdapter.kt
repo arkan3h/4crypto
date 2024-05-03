@@ -20,7 +20,7 @@ class FavoriteListAdapter(private val favoriteListener: FavoriteListener? = null
                     oldItem: Favorite,
                     newItem: Favorite,
                 ): Boolean {
-                    return oldItem.id == newItem.id && oldItem.id == newItem.id
+                    return oldItem.catalogId == newItem.catalogId
                 }
 
                 override fun areContentsTheSame(

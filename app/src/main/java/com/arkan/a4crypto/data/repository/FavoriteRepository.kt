@@ -11,10 +11,8 @@ import com.arkan.aresto.utils.proceed
 import com.arkan.aresto.utils.proceedFlow
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
-import java.lang.IllegalStateException
 
 interface FavoriteRepository {
     fun getUserFavoriteData(): Flow<ResultWrapper<Pair<List<Favorite>, Double>>>
@@ -22,6 +20,8 @@ interface FavoriteRepository {
     fun createFavorite(catalog: Coin): Flow<ResultWrapper<Boolean>>
 
     fun deleteFavorite(item: Favorite): Flow<ResultWrapper<Boolean>>
+
+    fun undoFavorite(item: Coin): Flow<ResultWrapper<Boolean>>
 
     fun deleteAll(): Flow<ResultWrapper<Boolean>>
 }
@@ -58,23 +58,34 @@ class FavoriteRepositoryImpl(private val favoriteDataSource: FavoriteDataSource)
     }
 
     override fun createFavorite(catalog: Coin): Flow<ResultWrapper<Boolean>> {
-        return catalog.id?.let { catalogId ->
-            // when id is not null
-            proceedFlow {
-                val affectedRow =
-                    favoriteDataSource.insertFavorite(
-                        FavoriteEntity(
-                            catalogId = catalogId,
-                            catalogName = catalog.name,
-                            catalogImgUrl = catalog.image,
-                            catalogPrice = catalog.price,
-                        ),
-                    )
-                delay(2000)
-                affectedRow > 0
-            }
-        } ?: flow {
-            emit(ResultWrapper.Error(IllegalStateException("catalog ID not found")))
+        return proceedFlow {
+            val affectedRow =
+                favoriteDataSource.insertFavorite(
+                    FavoriteEntity(
+                        catalogId = catalog.id,
+                        catalogName = catalog.name,
+                        catalogImgUrl = catalog.image,
+                        catalogPrice = catalog.price,
+                    ),
+                )
+            delay(2000)
+            affectedRow > 0
+        }
+    }
+
+    override fun undoFavorite(item: Coin): Flow<ResultWrapper<Boolean>> {
+        return proceedFlow {
+            val affectedRow =
+                favoriteDataSource.deleteFavorite(
+                    FavoriteEntity(
+                        catalogId = item.id,
+                        catalogName = item.name,
+                        catalogImgUrl = item.image,
+                        catalogPrice = item.price,
+                    ),
+                )
+            delay(2000)
+            affectedRow > 0
         }
     }
 }

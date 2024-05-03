@@ -19,14 +19,15 @@
         tools:visibility="visible"
         android:saveEnabled="false"
         />
+
     <ImageView
         android:id="@+id/tv_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="128dp"
         android:visibility="gone"
         android:src="@drawable/iv_empty_state"
         android:text="@string/text_error_empty_content"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
