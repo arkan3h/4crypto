@@ -27,7 +27,7 @@
     <string name="text_error_pw_empty">Password cannot be empty</string>
     <string name="text_error_name_empty">Name cannot be empty</string>
     <string name="text_error_pw_lower">Password must have 8 characters or more</string>
-    <string name="text_pw_nomatch">Password incorrect</string>
+    <string name="text_pw_nomatch">Password did not match</string>
     <string name="text_edit_profile">Edit Profile</string>
     <string name="text_save">Save</string>
     <string name="text_button_logout">Logout</string>
@@ -51,5 +51,6 @@
     <string name="text_failed_add_to_favorite">Failed add to favorite</string>
     <string name="text_load_add_to_favorite">Loading...</string>
     <string name="text_error_empty_content">This Content Is Empty</string>
+    <string name="text_register_here">REGISTER YOUR ACCOUNT</string>
 
 </resources>
