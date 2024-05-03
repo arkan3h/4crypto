@@ -95,6 +95,7 @@ class DetailActivity : AppCompatActivity() {
         binding.ivDetailImage.load(data.image)
         binding.tvDetailName.text = data.name
         binding.tvDetailDesc.text = data.desc
+        binding.tvDetailSymbol.text = data.symbol
         binding.tvDetailPrice.text = data.price.toDollarFormat()
     }
 
@@ -102,55 +103,27 @@ class DetailActivity : AppCompatActivity() {
         viewModel.addToFavorite().observe(this) {
             it.proceedWhen(
                 doOnSuccess = {
+                    binding.btnDetailFav.isVisible = true
+                    binding.btnDetailFav.setImageResource(R.drawable.ic_fav)
+                    binding.pbLoading.isVisible = false
                     Toast.makeText(
                         this,
-                        getString(R.string.text_succes_add_to_favorite),
+                        getString(R.string.text_success_add_to_favorite),
                         Toast.LENGTH_SHORT,
                     ).show()
-                    finish()
                 },
                 doOnError = {
+                    binding.pbLoading.isVisible = false
+                    binding.btnDetailFav.isVisible = true
                     Toast.makeText(
                         this,
-                        getString(R.string.text_faliled_add_to_favorite),
+                        getString(R.string.text_failed_add_to_favorite),
                         Toast.LENGTH_SHORT,
                     ).show()
                 },
                 doOnLoading = {
-                    Toast.makeText(
-                        this,
-                        getString(R.string.text_load_add_to_favorite),
-                        Toast.LENGTH_SHORT,
-                    ).show()
-                },
-            )
-        }
-    }
-
-    private fun deleteCoinFromFavorite() {
-        viewModel.removeFavorite().observe(this) {
-            it.proceedWhen(
-                doOnSuccess = {
-                    Toast.makeText(
-                        this,
-                        getString(R.string.text_succes_add_to_favorite),
-                        Toast.LENGTH_SHORT,
-                    ).show()
-                    finish()
-                },
-                doOnError = {
-                    Toast.makeText(
-                        this,
-                        getString(R.string.text_faliled_add_to_favorite),
-                        Toast.LENGTH_SHORT,
-                    ).show()
-                },
-                doOnLoading = {
-                    Toast.makeText(
-                        this,
-                        getString(R.string.text_load_add_to_favorite),
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                    binding.pbLoading.isVisible = true
+                    binding.btnDetailFav.isVisible = false
                 },
             )
         }

@@ -19,6 +19,20 @@
         android:layout_margin="8dp"
         app:tint="@color/md_theme_onBackground" />
 
+    <TextView
+        android:id="@+id/tv_detail_symbol"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        app:layout_constraintTop_toTopOf="@id/btn_detail_back"
+        app:layout_constraintBottom_toBottomOf="@id/btn_detail_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="btc" />
+
     <ImageButton
         android:id="@+id/btn_detail_fav"
         android:layout_width="40dp"
@@ -30,6 +44,17 @@
         android:elevation="1dp"
         android:layout_margin="8dp"
         app:tint="@color/md_theme_onBackground" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/pb_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:indeterminate="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="4dp"
+        tools:visibility="visible" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/sv_detail"
